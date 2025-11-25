@@ -1,6 +1,4 @@
 package flightbookingsystem;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +9,7 @@ public class Vol {
     private String arrivee;
     private double prix;
     private String compagnie;
-    private final List<Passager> passagers = new ArrayList<>();
+   
 
 
     
@@ -66,11 +64,9 @@ public class Vol {
         this.arrivee = dateArrivee;
     }
 
-    // Pas de capacité définie pour l'instant
 
-    public List<Passager> getPassagers() {
-        return new ArrayList<>(passagers);
-    }
+
+  
 
     public boolean ajouterPassager(Passager p) {
         if (p == null) return false;
@@ -111,3 +107,4 @@ public class Vol {
         return Objects.hash(numeroVol);
     }
 }
+
