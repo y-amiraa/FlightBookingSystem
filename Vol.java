@@ -1,13 +1,21 @@
 public class Vol {
     
+    // les attributs privés modélisent les caractéristiques du vol
+    // ils sont privés pour l'encapsulation
     private String numeroVol;
-    private CompagnieAerienne compagnie; // Agrégation
+    
+    // ceci est un exemple d'agrégation : la classe Vol contient un objet
+    // de la classe CompagnieAerienne. c'est une association forte.
+    private CompagnieAerienne compagnie; 
+    
     private String villeDepart;
     private String villeArrivee;
     private String dateDepart;
     private int capaciteMax;
 
-    // Constructeur
+    
+    // constructeur : cette méthode est appelée pour créer et initialiser
+    // un nouvel objet Vol avec toutes ses informations
     public Vol(String numeroVol, CompagnieAerienne compagnie, String depart, String arrivee, String date, int capacite) {
         this.numeroVol = numeroVol;
         this.compagnie = compagnie;
@@ -17,12 +25,14 @@ public class Vol {
         this.capaciteMax = capacite;
     }
 
-    // Getters
+    
+    // les "getters" (accesseurs) permettent de lire les attributs privés
     public String getNumeroVol() {
         return numeroVol;
     }
 
     public CompagnieAerienne getCompagnie() {
+        // ce getter retourne l'objet CompagnieAerienne associé à ce vol
         return compagnie;
     }
 
@@ -42,13 +52,17 @@ public class Vol {
         return capaciteMax;
     }
     
-    // Setters (pour la démonstration des setters)
+    // les "setters" (mutateurs) permettent de modifier les attributs privés
     public void setNumeroVol(String numeroVol) {
         this.numeroVol = numeroVol;
     }
-    // ... autres setters pour la complétude ...
+    
+    // on pourrait ajouter d'autres setters ici (setVilleDepart, setCapaciteMax, etc.)
+    // mais pour l'exemple, un seul suffit pour démontrer le concept.
 
-    @Override
+    
+    // la méthode toString() permet d'afficher l'objet Vol de manière lisible 
+    // lorsqu'on utilise System.out.println(monVol)
     public String toString() {
         return "Vol " + numeroVol + " | Compagnie: " + compagnie.getNom() + 
                " | Départ: " + villeDepart + " | Arrivée: " + villeArrivee + 
