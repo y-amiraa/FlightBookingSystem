@@ -1,110 +1,57 @@
-package flightbookingsystem;
-import java.util.List;
-import java.util.Objects;
-
 public class Vol {
+    
     private String numeroVol;
-    private String depart;
-    private String destination;
-    private String arrivee;
-    private double prix;
-    private String compagnie;
-   
+    private CompagnieAerienne compagnie; // Agrégation
+    private String villeDepart;
+    private String villeArrivee;
+    private String dateDepart;
+    private int capaciteMax;
 
-
-    
-    
-
-    public Vol(String numeroVol, String compagnie, String depart, String destination, String arrivee, double prix) {
+    // Constructeur
+    public Vol(String numeroVol, CompagnieAerienne compagnie, String depart, String arrivee, String date, int capacite) {
         this.numeroVol = numeroVol;
-        this.depart = depart;
-        this.destination = destination;
-        this.arrivee = arrivee;
-        this.prix = prix;
         this.compagnie = compagnie;
+        this.villeDepart = depart;
+        this.villeArrivee = arrivee;
+        this.dateDepart = date;
+        this.capaciteMax = capacite;
     }
 
+    // Getters
     public String getNumeroVol() {
         return numeroVol;
     }
 
-    public void setNumeroVol(String numeroVol) {
-        this.numeroVol = numeroVol;
-    }
-
-    public String getCompagnie() {
+    public CompagnieAerienne getCompagnie() {
         return compagnie;
     }
 
-    public void setCompagnie(String compagnie) {
-        this.compagnie = compagnie;
+    public String getVilleDepart() {
+        return villeDepart;
     }
 
-    public String getDepart() {
-        return depart;
+    public String getVilleArrivee() {
+        return villeArrivee;
     }
 
-    public void setDepart(String depart) {
-        this.depart = depart;
+    public String getDateDepart() {
+        return dateDepart;
     }
 
-    public String getDestination() {
-        return destination;
+    public int getCapaciteMax() {
+        return capaciteMax;
     }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
+    
+    // Setters (pour la démonstration des setters)
+    public void setNumeroVol(String numeroVol) {
+        this.numeroVol = numeroVol;
     }
-
-    public String getDateArrivee() {
-        return arrivee;
-    }
-
-    public void setDateArrivee(String dateArrivee) {
-        this.arrivee = dateArrivee;
-    }
-
-
-
-  
-
-    public boolean ajouterPassager(Passager p) {
-        if (p == null) return false;
-        return passagers.add(p);
-    }
-
-    public boolean retirerPassager(Passager p) {
-        return passagers.remove(p);
-    }
-
-    public int nombrePassagers() {
-        return passagers.size();
-    }
+    // ... autres setters pour la complétude ...
 
     @Override
     public String toString() {
-        return "Vol{" +
-                "numeroVol='" + numeroVol + '\'' +
-                ", compagnie='" + compagnie + '\'' +
-                ", depart='" + depart + '\'' +
-                ", destination='" + destination + '\'' +
-                ", dateArrivee='" + arrivee + '\'' +
-                ", prix=" + prix +
-                ", passagers=" + passagers.size() +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vol vol = (Vol) o;
-        return Objects.equals(numeroVol, vol.numeroVol);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(numeroVol);
+        return "Vol " + numeroVol + " | Compagnie: " + compagnie.getNom() + 
+               " | Départ: " + villeDepart + " | Arrivée: " + villeArrivee + 
+               " | Date: " + dateDepart + " | Capacité: " + capaciteMax;
     }
 }
-
