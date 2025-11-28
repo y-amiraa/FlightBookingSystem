@@ -1,21 +1,20 @@
 import java.util.Scanner;
 
 /**
- * Classe SystemeReservation
- * Gère l'initialisation des données, la recherche de vols, et l'état des réservations.
+ * ceci est la classe SystemeReservation
+ * elle gère la logique principale, les tableaux, les matrices et les boucles.
  */
 public class SystemeReservation {
     
-    // Attributs principaux : Le tableau de vols et la matrice de réservation (tableau 2D)
-    private Vol[] volsDisponibles; // Tableau de Vols
-    private Passager[][] reservations; // Matrice (Tableau 2D) : [Index du Vol][Numéro du Siège] = Passager ou null
+    // attributs de la classe : ce sont les structures de données principales
+    private Vol[] volsDisponibles; // ceci est un tableau de vols (l'agrégation des objets Vol)
+    private Passager[][] reservations; // ceci est la matrice (tableau 2D) qui gère les sièges.
+                                     // chaque ligne correspond à un vol, chaque colonne à un siège.
 
-    // =================================================================
-    // 1. Initialisation du Système (Agrégation et Tableaux)
-    // =================================================================
-
+    // méthode d'initialisation des données de base
     public void initialiserVols() {
-        // Création des compagnies aériennes
+      
+        // on crée les objets CompagnieAerienne
         CompagnieAerienne airFrance = new CompagnieAerienne("Air France", "AF");
         CompagnieAerienne royalAirMaroc = new CompagnieAerienne("Royal Air Maroc", "AT");
         CompagnieAerienne singaporeAirlines = new CompagnieAerienne("Singapore Airlines", "SQ");
@@ -23,7 +22,7 @@ public class SystemeReservation {
         CompagnieAerienne airTunisie = new CompagnieAerienne("Air Tunisie", "TU");
         CompagnieAerienne airSenegal = new CompagnieAerienne("Air Sénégal", "DS");
         
-        // Création des vols (Agrégation : chaque vol contient un objet CompagnieAerienne)
+        // on crée les objets Vol, en les associant à une compagnie
         Vol volAF = new Vol("AF001", airFrance, "Paris", "New York", "2025-12-15", 150);
         Vol volAT = new Vol("AT780", royalAirMaroc, "Casablanca", "Paris", "2025-12-16", 120);
         Vol volSQ = new Vol("SQ308", singaporeAirlines, "Singapour", "Londres", "2025-12-17", 250);
@@ -32,44 +31,42 @@ public class SystemeReservation {
         Vol volDS = new Vol("DS301", airSenegal, "Dakar", "New York", "2025-12-21", 110);
         Vol volAF2 = new Vol("AF1400", airFrance, "Paris", "Rome", "2025-12-20", 80);
         
-        // Remplissage du tableau de vols
+        // on remplit le tableau de vols disponibles
         this.volsDisponibles = new Vol[] { volAF, volAT, volSQ, volAH, volTU, volDS, volAF2 };
         
-        // Initialisation de la matrice (taille : nombre de vols x capacitéMax)
+        // on initialise la matrice de réservation (nombre de lignes = nombre de vols)
         this.reservations = new Passager[volsDisponibles.length][]; 
         
-        // Initialisation de la deuxième dimension (sièges) avec une boucle for
+        // on initialise la deuxième dimension de la matrice (les colonnes = les sièges)
         for (int i = 0; i < volsDisponibles.length; i++) {
-             // Utilisation du getter getCapaciteMax() pour dimensionner chaque ligne
+             // la taille de la ligne (le nombre de sièges) dépend de la capacité de chaque vol
              this.reservations[i] = new Passager[volsDisponibles[i].getCapaciteMax()];
         }
         
-        System.out.println("✅ Système de vols initialisé avec " + volsDisponibles.length + " vols.");
+        System.out.println("Système de vols initialisé avec " + volsDisponibles.length + " vols.");
     }
 
-    // =================================================================
-    // 2. Recherche de Vol (Utilisation du Scanner et d'une Boucle)
-    // =================================================================
-
+    // méthode pour rechercher des vols selon l'itinéraire
     public void rechercherVol(Scanner scanner) {
         System.out.print("Ville de départ souhaitée : ");
-        String depart = scanner.nextLine().trim();
+        String depart = scanner.nextLine().trim(); // on utilise le scanner pour lire l'entrée
         System.out.print("Ville d'arrivée souhaitée : ");
         String arrivee = scanner.nextLine().trim();
         
         System.out.println("\n--- Résultats de la recherche ---");
         boolean trouve = false;
         
-        // Boucle 'for-each' pour parcourir le tableau des vols
+        // boucle 'for-each' pour parcourir tout le tableau de vols
         for (Vol vol : volsDisponibles) {
-            // Utilisation des getters pour la comparaison
+            
+            // on utilise les getters pour comparer l'entrée utilisateur avec les attributs du vol
             if (vol.getVilleDepart().equalsIgnoreCase(depart) && 
                 vol.getVilleArrivee().equalsIgnoreCase(arrivee)) {
                 
                 int siegesLibres = vol.getCapaciteMax() - compterSiegesOccupes(vol);
                 
                 System.out.println("------------------------------------");
-                System.out.println(vol); // Utilise Vol.toString()
+                System.out.println(vol); 
                 System.out.println("Sièges disponibles : " + siegesLibres + " / " + vol.getCapaciteMax());
                 trouve = true;
             }
@@ -80,16 +77,13 @@ public class SystemeReservation {
         }
     }
 
-    // =================================================================
-    // 3. Réservation de Vol (Utilisation de la Matrice et de Boucles)
-    // =================================================================
-
+    // méthode pour effectuer une réservation
     public void reserverVol(Scanner scanner) {
         System.out.print("Entrez le numéro du vol à réserver : ");
         String numVol = scanner.nextLine().trim();
 
         int indexVol = -1;
-        // Boucle 1 : Trouver l'index du vol dans le tableau
+        // boucle 1 : trouver l'index (la ligne) correspondant au vol demandé
         for (int i = 0; i < volsDisponibles.length; i++) {
             if (volsDisponibles[i].getNumeroVol().equalsIgnoreCase(numVol)) {
                 indexVol = i;
@@ -98,14 +92,14 @@ public class SystemeReservation {
         }
 
         if (indexVol == -1) {
-            System.out.println("❌ Vol non trouvé.");
+            System.out.println("Vol non trouvé.");
             return;
         }
         
-        Passager[] siegesVol = reservations[indexVol];
+        Passager[] siegesVol = reservations[indexVol]; // on sélectionne la ligne (le tableau de sièges) de la matrice
         int indexSiegeLibre = -1;
         
-        // Boucle 2 : Trouver le premier siège libre (null) dans la ligne de la matrice
+        // boucle 2 : trouver le premier siège disponible dans ce tableau (si la case est nulle)
         for (int j = 0; j < siegesVol.length; j++) {
             if (siegesVol[j] == null) {
                 indexSiegeLibre = j;
@@ -114,11 +108,11 @@ public class SystemeReservation {
         }
 
         if (indexSiegeLibre == -1) {
-            System.out.println("❌ Ce vol est complet.");
+            System.out.println("Ce vol est complet.");
             return;
         }
 
-        // Lecture des infos du Passager (via Scanner)
+        // lecture des détails du nouveau passager avec le scanner
         System.out.print("Nom du passager : ");
         String nom = scanner.nextLine();
         System.out.print("Prénom du passager : ");
@@ -126,24 +120,22 @@ public class SystemeReservation {
         System.out.print("Numéro de passeport : ");
         String passeport = scanner.nextLine();
         
-        // Création de l'objet Passager et insertion dans la Matrice
+        // création de l'objet Passager
         Passager nouveauPassager = new Passager(nom, prenom, passeport);
-        // Affectation dans la Matrice : [Index du Vol][Index du Siège] = Objet Passager
+        
+        // insertion de l'objet Passager dans la matrice (réservation effective)
         reservations[indexVol][indexSiegeLibre] = nouveauPassager;
         
-        System.out.println("\n✅ Réservation réussie !");
+        System.out.println("\nRéservation réussie !");
         System.out.println("Vol : " + volsDisponibles[indexVol].getNumeroVol());
         System.out.println("Siège attribué : " + (indexSiegeLibre + 1));
     }
     
-    // =================================================================
-    // 4. Affichage des Réservations (Utilisation de Boucles Imbriquées)
-    // =================================================================
-
+    // méthode pour afficher l'état de toutes les réservations
     public void afficherReservations() {
         System.out.println("\n===== État des Réservations =====");
         
-        // Boucle externe : itère sur le tableau des vols (lignes de la matrice)
+        // boucle externe : itère sur les lignes (les vols)
         for (int i = 0; i < volsDisponibles.length; i++) {
             Vol vol = volsDisponibles[i];
             Passager[] siegesVol = reservations[i];
@@ -152,10 +144,11 @@ public class SystemeReservation {
             
             int compteurReservations = 0;
             
-            // Boucle interne : itère sur les sièges (colonnes de la matrice)
+            // boucle interne : itère sur les colonnes (les sièges)
             for (int j = 0; j < siegesVol.length; j++) {
-                if (siegesVol[j] != null) {
-                    // Utilisation des getters sur l'objet Passager
+                if (siegesVol[j] != null) { // si la case n'est pas null, c'est qu'elle contient un passager
+                    
+                    // affichage des infos du passager (via ses getters)
                     System.out.println("Siège " + (j + 1) + ": Réservé par " + 
                                        siegesVol[j].getPrenom() + " " + siegesVol[j].getNom() + 
                                        " (Passeport: " + siegesVol[j].getNumeroPasseport() + ")");
@@ -170,28 +163,21 @@ public class SystemeReservation {
         }
     }
     
-    // =================================================================
-    // Méthode Utilitaire (pour le calcul des places libres)
-    // =================================================================
-
-    /**
-     * Calcule le nombre de sièges occupés pour un vol donné.
-     * @param vol Le vol dont on veut compter les réservations.
-     * @return Le nombre de réservations.
-     */
+    // méthode utilitaire privée pour compter les sièges occupés d'un vol
     private int compterSiegesOccupes(Vol vol) {
         int indexVol = -1;
-        // Trouver l'index du vol dans le tableau
+        
+        // boucle pour trouver l'index de la ligne du vol
         for (int i = 0; i < volsDisponibles.length; i++) {
             if (volsDisponibles[i] == vol) {
                 indexVol = i;
                 break;
             }
         }
-        if (indexVol == -1) return 0; // Sécurité
+        if (indexVol == -1) return 0; 
 
         int compteur = 0;
-        // Compter les sièges non-null (réservés)
+        // boucle pour compter les cases non-null dans la ligne (les réservations)
         for (Passager passager : reservations[indexVol]) {
             if (passager != null) {
                 compteur++;
