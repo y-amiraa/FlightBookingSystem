@@ -1,26 +1,39 @@
-package flightbookingsystem;
-
 public class Passager {
-    private int id;
+    
     private String nom;
-    private String contact;
+    private String prenom;
+    private String numeroPasseport;
 
-
-    public Passager(int id, String nom, String contact) {
-        this.id = id;
+    // Constructeur
+    public Passager(String nom, String prenom, String numeroPasseport) {
         this.nom = nom;
-        this.contact = contact;
+        this.prenom = prenom;
+        this.numeroPasseport = numeroPasseport;
+    }
+    
+    // Getters
+    public String getNom() {
+        return nom;
     }
 
-public int getId() {
-    return id;
-}
-public String getNom() {
-    return nom;
-}
+    public String getPrenom() {
+        return prenom;
+    }
 
-public String getContact() {
-    return contact;
-}   
+    public String getNumeroPasseport() {
+        return numeroPasseport;
+    }
+    
+    // Setters
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setNumeroPasseport(String numeroPasseport) {
+        this.numeroPasseport = numeroPasseport;
+    }
 }
