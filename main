@@ -1,1 +1,47 @@
+import java.util.Scanner;
 
+public class MainApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        SystemeReservation systeme = new SystemeReservation();
+        
+        systeme.initialiserVols(); 
+        
+        boolean continuer = true;
+        while (continuer) {
+            System.out.println("\n===== Système de Réservation de Vols =====");
+            System.out.println("1. ✈️ Rechercher un vol");
+            System.out.println("2. 🎫 Réserver un siège");
+            System.out.println("3. 📝 Afficher toutes les réservations");
+            System.out.println("4. 🚪 Quitter");
+            System.out.print("Entrez votre choix : ");
+            
+            if (scanner.hasNextInt()) {
+                int choix = scanner.nextInt();
+                scanner.nextLine(); // Consommer le retour à la ligne
+                
+                switch (choix) {
+                    case 1:
+                        systeme.rechercherVol(scanner);
+                        break;
+                    case 2:
+                        systeme.reserverVol(scanner);
+                        break;
+                    case 3:
+                        systeme.afficherReservations();
+                        break;
+                    case 4:
+                        continuer = false;
+                        System.out.println("Merci d'avoir utilisé le système. Au revoir !");
+                        break;
+                    default:
+                        System.out.println("⚠️ Choix invalide. Veuillez entrer un nombre entre 1 et 4.");
+                }
+            } else {
+                System.out.println("⚠️ Entrée invalide. Veuillez entrer un nombre.");
+                scanner.nextLine(); // Vider le buffer
+            }
+        }
+        scanner.close();
+    }
+}
