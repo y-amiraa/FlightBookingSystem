@@ -1,47 +1,66 @@
 import java.util.Scanner;
 
 public class MainApp {
+    // la méthode main() est le point d'entrée de l'application
     public static void main(String[] args) {
+        // le scanner permet de lire les entrées de l'utilisateur (texte, chiffres)
         Scanner scanner = new Scanner(System.in);
+        
+        // on crée un objet de la classe SystemeReservation, qui contient toute la logique
         SystemeReservation systeme = new SystemeReservation();
         
+        // on appelle la méthode pour charger les vols initiaux (compagnies, destinations, etc.)
         systeme.initialiserVols(); 
         
         boolean continuer = true;
+        // boucle principale du programme : elle continue de tourner tant que 'continuer' est vrai
+        // c'est ce qui permet d'afficher le menu en continu
         while (continuer) {
+            
+            // affichage du menu des options
             System.out.println("\n===== Système de Réservation de Vols =====");
-            System.out.println("1. ✈️ Rechercher un vol");
-            System.out.println("2. 🎫 Réserver un siège");
-            System.out.println("3. 📝 Afficher toutes les réservations");
-            System.out.println("4. 🚪 Quitter");
+            System.out.println("1 Rechercher un vol");
+            System.out.println("2 Réserver un siège");
+            System.out.println("3 Afficher toutes les réservations");
+            System.out.println("4 Quitter");
             System.out.print("Entrez votre choix : ");
             
+            // on vérifie si l'entrée est bien un nombre entier
             if (scanner.hasNextInt()) {
                 int choix = scanner.nextInt();
-                scanner.nextLine(); // Consommer le retour à la ligne
+                // consommer le retour à la ligne après la lecture du nombre
+                scanner.nextLine(); 
                 
+                // structure switch pour exécuter l'action correspondant au choix de l'utilisateur
                 switch (choix) {
                     case 1:
+                        // appelle la méthode de recherche dans l'objet 'systeme'
                         systeme.rechercherVol(scanner);
                         break;
                     case 2:
+                        // appelle la méthode de réservation
                         systeme.reserverVol(scanner);
                         break;
                     case 3:
+                        // appelle la méthode d'affichage des réservations
                         systeme.afficherReservations();
                         break;
                     case 4:
+                        // change la condition de la boucle 'while' pour sortir du programme
                         continuer = false;
                         System.out.println("Merci d'avoir utilisé le système. Au revoir !");
                         break;
                     default:
-                        System.out.println("⚠️ Choix invalide. Veuillez entrer un nombre entre 1 et 4.");
+                        System.out.println("Choix invalide. Veuillez entrer un nombre entre 1 et 4.");
                 }
             } else {
-                System.out.println("⚠️ Entrée invalide. Veuillez entrer un nombre.");
-                scanner.nextLine(); // Vider le buffer
+                // message d'erreur si l'utilisateur n'entre pas un nombre
+                System.out.println("Entrée invalide. Veuillez entrer un nombre.");
+                // on vide le scanner pour éviter un bug de boucle infinie
+                scanner.nextLine(); 
             }
         }
+        // fermer le scanner quand l'application se termine (quand on sort de la boucle while)
         scanner.close();
     }
 }
