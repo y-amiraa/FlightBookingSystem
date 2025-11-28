@@ -1,17 +1,22 @@
 public class Passager {
     
+    // les attributs sont privés pour garantir l'encapsulation (ils ne sont
+    // accessibles que via les méthodes get/set)
     private String nom;
     private String prenom;
     private String numeroPasseport;
 
-    // Constructeur
+ 
+    // constructeur : méthode appelée quand on crée un nouvel objet passager
+    // cela permet d'initialiser ses propriétés (nom, prenom, passeport)
     public Passager(String nom, String prenom, String numeroPasseport) {
         this.nom = nom;
         this.prenom = prenom;
         this.numeroPasseport = numeroPasseport;
     }
     
-    // Getters
+    
+    // les "getters" permettent de lire la valeur des attributs privés
     public String getNom() {
         return nom;
     }
@@ -24,7 +29,8 @@ public class Passager {
         return numeroPasseport;
     }
     
-    // Setters
+    
+    // les "setters" permettent de modifier la valeur des attributs privés
     public void setNom(String nom) {
         this.nom = nom;
     }
